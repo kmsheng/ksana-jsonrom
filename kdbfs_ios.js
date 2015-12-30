@@ -1,7 +1,9 @@
 /*
   JSContext can return all Javascript types.
 */
-var verbose=0,async=!!kfs.async;
+var async = true;
+var kfs = null;
+var verbose = 0;
 
 var readSignature=function(pos,cb) {
 	if (verbose)  ksanagap.log("read signature at "+pos);
@@ -180,6 +182,12 @@ var free=function() {
 }
 var Open=function(path,opts,cb) {
 	opts=opts||{};
+
+  if (opts.kfs) {
+    kfs = opts.kfs;
+    async = !! kfs.async;
+  }
+
 	var signature_size=1;
 	var setupapi=function() { 
 		this.readSignature=readSignature;
